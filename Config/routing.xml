@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns="http://symfony.com/schema/routing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+  <!--
+
+    if a /admin/module/productcomparison/ route is provided, a "Configuration" button will be displayed
+    for the module in the module list. Clicking this button will invoke this route.
+
+    <route id="my_route_id" path="/admin/module/productcomparison">
+        <default key="_controller">ProductComparison\Full\Class\Name\Of\YourConfigurationController::methodName</default>
+    </route>
+
+    <route id="my_route_id" path="/admin/module/productcomparison/route-name">
+        <default key="_controller">ProductComparison\Full\Class\Name\Of\YourAdminController::methodName</default>
+    </route>
+
+    <route id="my_route_id" path="/my/route/name">
+        <default key="_controller">ProductComparison\Full\Class\Name\Of\YourOtherController::methodName</default>
+    </route>
+
+    ...add as many routes as required.
+
+    <route>
+    ...
+    </route>
+    -->
+  <route id="productcomparison.product_comparison.list" path="/admin/module/ProductComparison/product_comparison" methods="get">
+    <default key="_controller">ProductComparison:ProductComparison:default</default>
+  </route>
+  <route id="productcomparison.product_comparison.create" path="/admin/module/ProductComparison/product_comparison" methods="post">
+    <default key="_controller">ProductComparison:ProductComparison:create</default>
+  </route>
+  <route id="productcomparison.product_comparison.view" path="/admin/module/ProductComparison/product_comparison/edit" methods="get">
+    <default key="_controller">ProductComparison:ProductComparison:update</default>
+  </route>
+  <route id="productcomparison.product_comparison.edit" path="/admin/module/ProductComparison/product_comparison/edit" methods="post">
+    <default key="_controller">ProductComparison:ProductComparison:processUpdate</default>
+  </route>
+  <route id="productcomparison.product_comparison.delete" path="/admin/module/ProductComparison/product_comparison/delete" methods="post">
+    <default key="_controller">ProductComparison:ProductComparison:delete</default>
+  </route>
+  <route id="productcomparison.product_comparison.update_position" path="/admin/module/ProductComparison/product_comparison/updatePosition" methods="get">
+    <default key="_controller">ProductComparison:ProductComparison:updatePosition</default>
+  </route>
+
+  <route id="productcomparison.comparator.add" path="/product-comparison/add">
+    <default key="_controller">ProductComparison:ProductComparisonComparator:addItem</default>
+  </route>
+  <route id="productcomparison.comparator.display" path="/comparator">
+    <default key="_controller">ProductComparison:ProductComparisonComparator:displayComparator</default>
+  </route>
+
+  <route id="productcomparison.back.config.save" path="/admin/module/productcomparison/configure" methods="post">
+    <default key="_controller">ProductComparison:ProductComparisonConfiguration:save</default>
+  </route>
+  <route id="productcomparison.back.updatefeature" path="/admin/module/ProductComparison/updateListTemplate" methods="post">
+    <default key="_controller">ProductComparison:ProductComparisonConfiguration:updateFeature</default>
+  </route>
+</routes>

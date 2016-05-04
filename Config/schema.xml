@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database defaultIdMethod="native" name="thelia"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="../../../../core/vendor/propel/propel/resources/xsd/database.xsd" >
+    <!--
+    See propel documentation on http://propelorm.org for all information about schema file
+
+    <table name="product_rel" namespace="ProductComparison\Model">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+        <column defaultValue="0" name="visible" required="true" type="TINYINT" />
+        <column defaultValue="0" name="position" required="true" type="INTEGER" />
+        <column name="title" size="255" type="VARCHAR" />
+        <column name="description" type="CLOB" />
+        <column name="chapo" type="LONGVARCHAR" />
+        <column name="postscriptum" type="LONGVARCHAR" />
+        <foreign-key foreignTable="product" name="fk_product_id" onDelete="CASCADE" onUpdate="RESTRICT">
+            <reference foreign="id" local="product_id" />
+        </foreign-key>
+        <behavior name="timestampable" />
+        <behavior name="i18n">
+            <parameter name="i18n_columns" value="title, description, chapo, postscriptum" />
+        </behavior>
+        <behavior name="versionable">
+            <parameter name="log_created_at" value="true" />
+            <parameter name="log_created_by" value="true" />
+        </behavior>
+    </table>
+    -->
+
+        <table isCrossRef="true" name="product_comparison" namespace="ProductComparison\Model">
+            <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+            <column name="feature_id" required="true" type="INTEGER" />
+            <column name="template_id" required="true" type="INTEGER" />
+            <column name="position" type="INTEGER" />
+            <foreign-key foreignTable="feature" name="fk_product_comparison_id" onDelete="CASCADE" onUpdate="RESTRICT">
+                <reference foreign="id" local="feature_id" />
+            </foreign-key>
+            <foreign-key foreignTable="template" name="fk_product_comparison" onDelete="CASCADE" onUpdate="RESTRICT">
+                <reference foreign="id" local="template_id" />
+            </foreign-key>
+            <index name="idx_product_comparison_id">
+                <index-column name="feature_id" />
+            </index>
+            <index name="fk_product_comparison_idx">
+                <index-column name="template_id" />
+            </index>
+            <index name="idx_product_comparison_template_id_position">
+                <index-column name="template_id" />
+                <index-column name="position" />
+            </index>
+            <behavior name="timestampable" />
+        </table>
+
+
+    <external-schema filename="local/config/schema.xml" referenceOnly="true" />
+</database>

@@ -1,0 +1,83 @@
+{extends file="layout.tpl"}
+
+{* Breadcrumb *}
+{block name='no-return-functions' append}
+{$breadcrumbs = [
+['title' => {intl l="Comparator" d='productcomparison.fo.default'}, 'url'=>{url path="/comparator"}]
+]}
+{/block}
+
+{block name="body-class"}page-comparator{/block}
+
+{block name="main-content"}
+<div class="main">
+
+    <article class="col-main row" role="main" aria-labelledby="main-label">
+
+        <h1 id="main-label" class="page-header">{intl l="Comparator" d='productcomparison.fo.default'}</h1>
+
+        {hook name="comparator.top"}
+        <div id="comparator" class="table-responsive">
+            <table id="fixTable" class="table table-striped table-hover table-condensed" style="border-collapse: separate;">
+                <thead>
+                <tr>
+                    <th></th>
+                    {loop type="product" name="product-image" id=$comparator_items order='given_id'}
+                    <th class="text-center">
+                        {loop name="product_thumbnail" type="image" product=$ID width="218" height="146" resize_mode="borders" limit="1"}
+                        <img itemprop="image" src="{$IMAGE_URL nofilter}" alt="{$TITLE}" style="display: block; margin:0 auto;">
+                        {/loop}
+                        {elseloop rel="product_thumbnail"}
+                        {images file='assets/img/218x146.png'}<img itemprop="image" src="{$asset_url}" alt="{$TITLE}">{/images}
+                        {/elseloop}
+
+                    </th>
+                    {/loop}
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        {loop type="product" name="product-image" id=$comparator_items order='given_id'}
+                        <td class="text-center"><strong><a href="{$URL}">{$TITLE}</a></strong></td>
+                        {/loop}
+                    </tr>
+                    {loop name="product-comparison-list" type="product-comparison" order='manual' template_id="$comparator_template"}
+                    <tr>
+                        {loop type="feature" name="name-feature" id=$FEATURE_ID}
+                        <td><strong>{$TITLE}</strong></td>
+                        {/loop}
+                        {loop type="product" name="product-feature" id=$comparator_items order='given_id'}
+                        <td class="text-center">
+                            {loop name="feature_value_technicalcharacteristics_general" type="feature_value" feature="{$FEATURE_ID}" product="{$ID}"}
+
+                                {if $LOOP_COUNT > 1}, {else} {/if}
+                                {if $IS_FREE_TEXT == 1}{$FREE_TEXT_VALUE}{else}
+                                {if $TITLE=="true"}<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>{else}{$TITLE}{/if}
+                                {/if}
+
+                            {/loop}
+                        </td>
+                        {/loop}
+                    </tr>
+                    {/loop}
+                </tbody>
+            </table>
+        </div>
+        {hook name="comparator.bottom"}
+    </article>
+
+</div><!-- /.layout -->
+{/block}
+
+{block name="stylesheet"}
+{hook name="comparator.stylesheet"}
+{/block}
+
+{block name="after-javascript-include"}
+{hook name="comparator.after-javascript-include"}
+{/block}
+
+{block name="javascript-initialization"}
+{hook name="comparator.javascript-initialization"}
+{/block}

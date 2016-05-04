@@ -1,0 +1,186 @@
+{extends file="admin-layout.tpl"}
+{default_translation_domain domain='productcomparison.bo.default'}
+
+{block name="no-return-functions"}
+    {$admin_current_location = 'tools'}
+{/block}
+
+{block name="page-title"}{intl l='ProductComparison' d="productcomparison.bo.default"}{/block}
+
+{block name="check-resource"}admin.module{/block}
+{block name="check-access"}view{/block}
+{block name="check-module"}ProductComparison{/block}
+
+{block name="main-content"}
+    {if $smarty.post.template}
+        {assign template_id {$smarty.post.template|default:''}}
+    {else}
+        {assign template_id {$smarty.get.template|default:''}}
+    {/if}
+    <div id="wrapper" class="container">
+
+        {if $general_error}
+            <div class="alert alert-danger">
+                {$general_error}
+            </div>
+        {/if}
+
+
+        <!-- DocumentsSharing list -->
+        <div class="general-block-decorator">
+            <div class="title title-without-tabs">
+                {intl l="Product comparison" d="productcomparison.bo.default"}
+            </div>
+
+            <ul class="nav nav-tabs" id="tabbed-menu">
+                <li class="active"><a href="#comparator" data-toggle="tab">{intl l="Comparator" d='productcomparison.bo.default'}</a></li>
+                <li><a href="#config" data-toggle="tab">{intl l="Configuration" d='productcomparison.bo.default'}</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="comparator">
+                    {include file="form/form_comparator.html"}
+                </div>
+                <div class="tab-pane fade" id="config">
+                    {include file="form/form_configuration.html"}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    {* CREATE Modal *}
+
+    {form name="product_comparison.create"}
+    {capture "product_comparison_create"}
+        {form_hidden_fields form=$form}
+
+
+        {render_form_field form=$form field="success_url" value={url path='/admin/module/ProductComparison/product_comparison/edit?product_comparison_id=_ID_'}}
+
+        {form_field form=$form field="template_id"}
+        <div class="form-group">
+            <label class="control-label" for="{$label_attr.for}">
+                {$label}
+                {if $required}<span class="required">*</span>{/if}
+            </label>
+
+            {form_error form=$form field="template_id"}{$message}{/form_error}
+
+            <select class="form-control" name="{$name}" id="{$label_attr.for}">
+                <option value="">{intl l="Select a template" d="productcomparison.bo.default"}</option>
+                {loop type='product-template' name='template-all-list' order='name'}
+                <option value="{$ID}" {if $ID==$TEMPLATE_ID}selected{/if}>{$NAME}</option>
+                {/loop}
+
+            </select>
+
+
+            <!--input type="integer" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$TEMPLATE_ID}" placeholder="{intl l='The ProductComparison template_id'}" /-->
+        </div>
+        {/form_field}
+        {form_field form=$form field="feature_id"}
+            <div class="form-group">
+                <label class="control-label" for="{$label_attr.for}">
+                    {$label}
+                    {if $required}<span class="required">*</span>{/if}
+                </label>
+
+                {form_error form=$form field="feature_id"}{$message}{/form_error}
+
+                <select class="form-control" name="{$name}" id="{$label_attr.for}">
+                    <option value="" disabled>{intl l="Select a template first" d="productcomparison.bo.default"}</option>
+                </select>
+
+                <!--input type="integer" class="form-control" name="{$name}" id="{$label_attr.for}" value="{$FEATURE_ID}" placeholder="{intl l='The ProductComparison feature_id'}" /-->
+            </div>
+        {/form_field}
+
+    {/capture}
+
+    {include file="includes/generic-create-dialog.html"
+
+
+        dialog_id       = "product_comparison-create"
+        dialog_title    = {intl l="Create an entry of ProductComparison" d="productcomparison.bo.default"}
+        dialog_body     = {$smarty.capture.product_comparison_create nofilter}
+
+        dialog_ok_label     = {intl l="Create"}
+        dialog_cancel_label = {intl l="Cancel"}
+
+        form_action        = {$current_url}
+        form_enctype       = {form_enctype form=$form}
+    }
+    {/form}
+
+
+    {* DELETE modal *}
+
+    {capture "product_comparison_delete"}
+        {intl l="Do you really want to delete this ProductComparison entry ?" d="productcomparison.bo.default"}
+        <input type="hidden" name="product_comparison_id" id="product_comparison_delete_id" value="" />
+    {/capture}
+
+    {include file="includes/generic-confirm-dialog.html"
+
+        dialog_id       = "product_comparison-delete"
+        dialog_title    = {intl l="Delete an entry of ProductComparison" d="productcomparison.bo.default"}
+        dialog_message  = {$smarty.capture.product_comparison_delete nofilter}
+
+        dialog_ok_label     = {intl l="Delete"}
+        dialog_cancel_label = {intl l="Cancel"}
+
+        form_action         = {token_url path='/admin/module/ProductComparison/product_comparison/delete'}
+    }
+{/block}
+
+{block name="javascript-initialization"}
+    {javascripts file='assets/js/bootstrap-editable/bootstrap-editable.js'}
+        <script src="{$asset_url}"></script>
+    {/javascripts}
+    <script>
+        $(function() {
+            $('a.product_comparison-delete').click(function(ev) {
+                $('#product_comparison_delete_id').val($(this).data('id'));
+            });
+
+            {* Inline editing of object position using bootstrap-editable *}
+
+            $('.product_comparison-position-change').editable({
+                type        : 'text',
+                title       : '{{intl l="Enter new ProductComparison position" d="productcomparison.bo.default"}|addslashes nofilter}',
+                mode        : 'popup',
+                inputclass  : 'input-mini',
+                placement   : 'left',
+                success     : function(response, newValue) {
+                    // The URL template
+                    var url = "{url noamp='1' path='/admin/module/ProductComparison/product_comparison/updatePosition' product_comparison_id='__ID__' position='__POS__' order=$order template_id='__TEMPLATEID__'}";
+
+                    // Perform subtitutions
+                    var template = $("#template_" + $(this).data('id')).data('id');
+                    url = url.replace('__ID__', $(this).data('id')).replace('__POS__', newValue).replace('__TEMPLATEID__', template);
+
+                    // Reload the page
+                    location.href = url;
+                }
+            });
+
+            $("#product_comparison_template_id").on("change", function(){
+                var template = $(this).val();
+                var data = '<option value="" disabled>{intl l="Update in progress..." d="productcomparison.bo.default"}</option>';
+                $("#product_comparison_feature_id").html(data);
+                var url = "{url path='/admin/module/ProductComparison/updateListTemplate'}";
+                $.ajax({
+                    type: "POST", data: {literal}{template_id: template}{/literal}, url: url,
+                    success: function (data) {
+                        $("#product_comparison_feature_id").html(data);
+                    },
+                    error: function (e) {
+                        console.log('Error.', e);
+                    }
+                });
+            });
+
+        });
+    </script>
+{/block}

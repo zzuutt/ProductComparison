@@ -1,0 +1,13 @@
+{if $template_id}
+{ifloop rel="feature-notin-list"}
+<option value="" disabled>{intl l="Select a feature" d="productcomparison.bo.default"}</option>
+{loop type='product-comparison-feature' name='feature-notin-list' order='id' exclude_template=$template_id template=$template_id}
+<option value="{$ID}" {if $ID==$FEATURE_ID}selected{/if}>{$TITLE}</option>
+{/loop}
+{/ifloop}
+{elseloop rel="feature-notin-list"}
+<option value="" disabled>{intl l="All features are added" d="productcomparison.bo.default"}</option>
+{/elseloop}
+{else}
+<option value="" disabled>{intl l="Select a template first" d="productcomparison.bo.default"}</option>
+{/if}

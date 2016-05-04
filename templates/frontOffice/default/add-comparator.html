@@ -1,0 +1,39 @@
+<div class="row">
+    {if $comparator_items != ''}
+    {assign var="nbr_item" value=","|explode:$comparator_items}
+    <div class="col-md-12">
+        <div class="col-md-2 pull-right">
+            <a class="btn btn-default btn-block" {if {$nbr_item|@count}<2}disabled{/if} data-item="{$comparator_items}" href="{url path='/comparator' items={$comparator_items|base64_encode}}"><span class="glyphicon glyphicon-search"></span> {intl l='Compare' d='productcomparison.fo.default'}</a>
+        </div>
+    </div>
+    <div style="clear:both;">&nbsp;</div>
+    {loop type='product' name='block-comparator' id=$comparator_items order="given_id"}
+    <div class="col-sm-4 col-md-2">
+
+        <div class="thumbnail">
+
+            {loop name="product_thumbnail" type="image" product=$ID width="218" height="146" resize_mode="borders" limit="1"}
+            <img itemprop="image" src="{$IMAGE_URL nofilter}" alt="{$productTitle}" style="display: block;">
+            {/loop}
+            {elseloop rel="product_thumbnail"}
+            {images file='assets/img/218x146.png'}<img itemprop="image" src="{$asset_url}" alt="{$productTitle}">{/images}
+            {/elseloop}
+            <div class="caption">
+                {$TITLE}
+                <p>
+                    <button type="button" class="btn btn-default btn-comparator-delete btn-block" data-action='{url path="/product-comparison/add"}' data-id="{$ID}" data-template="{$TEMPLATE}"><span class="glyphicon glyphicon-trash"></span> {intl l="Remove" d='productcomparison.fo.default'}</button>
+                </p>
+            </div>
+
+        </div><!-- /product -->
+
+    </div>
+    {/loop}
+    {else}
+    <div class="col-md-12">
+        <div class="comparator-info">
+        {intl l="No products to compare" d="productcomparison.fo.default"}
+        </div>
+    </div>
+    {/if}
+</div>

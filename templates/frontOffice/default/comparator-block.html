@@ -1,0 +1,12 @@
+<div class="comparator-block">
+    <button class="comparator-title" data-toggle="collapse" data-target=".comparator-items"><i class="icon-caret-down"></i> {intl l='Comparator' d='productcomparison.fo.default'} <i class="icon-caret-down"></i></button>
+    <div class="collapse comparator-items" id="list-items-comparator"><i class="icon-spinner icon-spin icon-3x"></i></div>
+</div>
+
+{block name="after-javascript-include"}
+<script type="text/javascript">
+    var default_template_id = '{$template_id}';
+    var default_action_url = '{url path="/product-comparison/add"}';
+    var cookie_name_comparator = '{$name_cookie}';
+</script>
+{/block}

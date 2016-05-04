@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://thelia.net/schema/dic/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://thelia.net/schema/dic/config http://thelia.net/schema/dic/config/thelia-1.0.xsd">
+  <loops>
+    <!-- sample definition
+        <loop name="MySuperLoop" class="ProductComparison\Loop\MySuperLoop" />
+        -->
+    <loop name="product-comparison" class="ProductComparison\Loop\ProductComparison"/>
+    <loop name="product-comparison-feature" class="ProductComparison\Loop\ProductComparisonFeature"/>
+  </loops>
+  <forms>
+    <!--
+        <form name="MyFormName" class="ProductComparison\Form\MySuperForm" />
+        -->
+    <form name="product_comparison.create" class="ProductComparison\Form\ProductComparisonCreateForm"/>
+    <form name="product_comparison.update" class="ProductComparison\Form\ProductComparisonUpdateForm"/>
+    <form name="product_comparison.configuration" class="ProductComparison\Form\ProductComparisonConfigurationForm"/>
+  </forms>
+  <commands>
+    <!--
+        <command class="ProductComparison\Command\MySuperCommand" />
+        -->
+  </commands>
+  <!--
+    <services>
+
+    </services>
+    -->
+  <hooks>
+    <hook id="product_comparison.hook" class="ProductComparison\Hook\Back\ProductComparisonHook" scope="request">
+      <!-- For ProductComparison insertion in Tools menu -->
+      <tag name="hook.event_listener" event="main.top-menu-tools" type="back" method="onMainTopMenuTools"/>
+    </hook>
+    <hook id="product_comparison.comparator.hook" class="ProductComparison\Hook\Front\ProductComparisonHook" scope="request">
+      <tag name="hook.event_listener" event="singleproduct.bottom" type="front" method="onDisplaySingleProduct"/>
+      <tag name="hook.event_listener" event="category.stylesheet" type="front" method="onDisplaySingleProductCss"/>
+      <tag name="hook.event_listener" event="category.javascript-initialization" type="front" method="onDisplaySingleProductJs"/>
+      <tag name="hook.event_listener" event="category.bottom" type="front" method="onDisplayCategory"/>
+    </hook>
+
+  </hooks>
+  <!--
+    <exports>
+
+    </exports>
+    -->
+  <!--
+    <imports>
+
+    </imports>
+    -->
+  <services>
+    <service id="action.productcomparison.product_comparison_table" class="ProductComparison\Action\ProductComparisonAction">
+      <tag name="kernel.event_subscriber"/>
+    </service>
+    <service id="productcomparison.form.type.product_comparison_id" class="ProductComparison\Form\Type\ProductComparisonIdType">
+      <argument id="thelia.translator" type="service"/>
+      <tag name="thelia.form.type"/>
+    </service>
+  </services>
+</config>
