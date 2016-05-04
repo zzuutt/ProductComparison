@@ -6,6 +6,8 @@ for Thelia >= 2.2.0
 
 Add a comparator on your website
 
+if you use this module, notify me by email thank you
+
 ## Installation
 
 ### Manually
