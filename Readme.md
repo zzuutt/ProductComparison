@@ -1,6 +1,6 @@
 # Product Comparison 
-==================
-author: Zzuutt <zzuutt34 at free.fr>
+
+author: Zzuutt <zzuutt34@free.fr>
 for Thelia >= 2.2.0
 
 Add a comparator on your website
