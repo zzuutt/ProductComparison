@@ -158,31 +158,6 @@ class ProductComparisonAction extends BaseAction implements EventSubscriberInter
         $this->genericUpdatePosition(new ProductComparisonQuery(), $event);
     }
 
-    /**
-     * Changes object position, selecting absolute ou relative change.
-     *
-     * @param ModelCriteria       $query
-     * @param UpdatePositionEvent $event
-     *
-     * @return null
-     */
-    protected function genericUpdatePosition(ModelCriteria $query, UpdatePositionEvent $event)
-    {
-        if (null !== $object = $query->findPk($event->getObjectId())) {
-            $object->setDispatcher($event->getDispatcher());
-
-            $mode = $event->getMode();
-
-            if ($mode == UpdatePositionEvent::POSITION_ABSOLUTE) {
-                $object->changeAbsolutePosition($event->getPosition());
-            } elseif ($mode == UpdatePositionEvent::POSITION_UP) {
-                $object->movePositionUp();
-            } elseif ($mode == UpdatePositionEvent::POSITION_DOWN) {
-                $object->movePositionDown();
-            }
-        }
-    }
-
     public function beforeCreateFormBuild(TheliaFormEvent $event)
     {
     }
