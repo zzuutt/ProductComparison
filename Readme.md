@@ -28,7 +28,7 @@ Sur votre site vous voulez offrir la possibilité à vos client de comparer cert
 
 1- vous créez des caractéristiques (taille, consommation, couleur....)
 
-2- vous les rattachées à un gabarit
+2- vous les rattachez à un gabarit
 
 3- sur la page de chaque produit, vous appliquez le gabarit et renseignez les caractéristiques
 
