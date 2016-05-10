@@ -21,6 +21,28 @@ In the tools menu, a new entry is displayed  'product comparison' .
 
 In the front office, an integration is provided for the default template. It uses hooks, so it's activated by default.
 
+L'utilisation est simple:
+
+Sur votre site vous voulez offrir la possibilité à vos client de comparer certains produits exemple: des téléviseurs
+- Coté back 
+
+1- vous créez des caractéristiques (taille, consommation, couleur....)
+
+2- vous les rattachées à un gabarit
+
+3- sur la page de chaque produit, vous appliquez le gabarit et renseignez les caractéristiques
+
+4- vous activez le module 'Comparateur de produits' (à l'activation toutes les caractérisques et gabarit sont copiés)
+
+5- dans le menu Outils, selectionnez 'Comparateur de produits'
+
+6- classez, gardez les caractéristiques que vous voulez afficher sur la page comparateur
+
+7- dans l'onglet configuration, selectionnez les catégories et gabarits
+
+8- c'est fini, le comparateur est affiché !
+
+
 ## Hook
 
 It uses default hooks.
