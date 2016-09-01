@@ -80,6 +80,14 @@ class ProductComparisonHook extends BaseHook
         }
     }
 
+    public function onDisplayComparatorJs(HookRenderEvent $event)
+    {
+        $event
+            ->add(
+                $this->addJS("assets/js/tableHeadFixer.js")
+            );
+    }
+
     private function getModuleConfig()
     {
         $vars =[];

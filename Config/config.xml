@@ -35,6 +35,7 @@
       <tag name="hook.event_listener" event="category.stylesheet" type="front" method="onDisplaySingleProductCss"/>
       <tag name="hook.event_listener" event="category.javascript-initialization" type="front" method="onDisplaySingleProductJs"/>
       <tag name="hook.event_listener" event="category.bottom" type="front" method="onDisplayCategory"/>
+      <tag name="hook.event_listener" event="comparator.after-javascript-include" type="front" method="onDisplayComparatorJs"/>
     </hook>
 
   </hooks>

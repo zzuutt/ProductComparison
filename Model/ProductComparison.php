@@ -8,8 +8,8 @@ namespace ProductComparison\Model;
 
 use ProductComparison\Model\Base\ProductComparison as BaseProductComparison;
 use Thelia\Model\Tools\ModelEventDispatcherTrait;
-//use Thelia\Model\Tools\PositionManagementTrait;
-use ProductComparison\Model\Tools\PositionManagementTrait;
+use Thelia\Model\Tools\PositionManagementTrait;
+//use ProductComparison\Model\Tools\PositionManagementTrait;
 use Propel\Runtime\Connection\ConnectionInterface;
 
 /**
@@ -26,5 +26,11 @@ class ProductComparison extends BaseProductComparison
         $this->setPosition($this->getNextPosition());
 
         return true;
+    }
+
+    protected function addCriteriaToPositionQuery($query)
+    {
+        $template_id = $this->getTemplateId();
+        $query->filterByTemplateId($template_id);
     }
 }

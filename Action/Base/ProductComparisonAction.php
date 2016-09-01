@@ -19,63 +19,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Thelia\Core\Event\TheliaEvents;
 use \Thelia\Core\Event\TheliaFormEvent;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
-
-
-
-trait PositionManagementTrait_ProductComparison{
-    /**
-     * Changes object position
-     *
-     * @param newPosition
-     */
-    public function changeAbsolutePosition($newPosition)
-    {
-        // The current position
-        $current_position = $this->getPosition();
-
-        if ($newPosition != null && $newPosition > 0 && $newPosition != $current_position) {
-            // Find categories to offset
-            $search = $this->createQuery();
-
-            $this->addCriteriaToPositionQuery($search);
-
-            if ($newPosition > $current_position) {
-                // The new position is after the current position -> we will offset + 1 all categories located between us and the new position
-                $search->filterByPosition(array('min' => 1+$current_position, 'max' => $newPosition));
-
-                $delta = -1;
-            } else {
-                // The new position is brefore the current position -> we will offset - 1 all categories located between us and the new position
-                $search->filterByPosition(array('min' => $newPosition, 'max' => $current_position - 1));
-
-                $delta = 1;
-            }
-
-            $results = $search->find();
-
-            $cnx = Propel::getWriteConnection($this->getDatabaseName());
-
-            $cnx->beginTransaction();
-
-            try {
-                foreach ($results as $result) {
-                    $objNewPosition = $result->getPosition() + $delta;
-
-                    $result->setDispatcher($this->getDispatcher())->setPosition($objNewPosition)->save($cnx);
-                }
-
-                $this
-                    ->setPosition($newPosition)
-                    ->save($cnx)
-                ;
-
-                $cnx->commit();
-            } catch (\Exception $e) {
-                $cnx->rollback();
-            }
-        }
-    }
-}
+use Propel\Runtime\ActiveQuery\PropelQuery;
+use Propel\Runtime\ActiveQuery\Criteria;
 
 
 
@@ -86,7 +31,6 @@ trait PositionManagementTrait_ProductComparison{
  */
 class ProductComparisonAction extends BaseAction implements EventSubscriberInterface
 {
-    use PositionManagementTrait_ProductComparison;
 
     public function create(ProductComparisonEvent $event)
     {
