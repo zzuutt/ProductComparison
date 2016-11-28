@@ -53,6 +53,12 @@
             }
             return false;
         });
+        
+        $(document).on('click', '.btn-comparator-delete-all', function () {
+            updateComparator('', default_action_url);
+            comparator[default_template_id] = [];
+            return false;
+        });
     });
 
     function enableDisableButtonComparator(items)
