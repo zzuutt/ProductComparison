@@ -5,6 +5,9 @@
         <div class="col-md-2 pull-right">
             <a class="btn btn-default btn-block" {if {$nbr_item|@count}<2}disabled{/if} data-item="{$comparator_items}" href="{url path='/comparator' items={$comparator_items|base64_encode}}"><span class="glyphicon glyphicon-search"></span> {intl l='Compare' d='productcomparison.fo.default'}</a>
         </div>
+        <div class="col-md-2 pull-right">
+            <button type="button" class="btn btn-default btn-comparator-delete-all btn-block" data-action='{url path="/product-comparison/add"}' data-id="" data-template=""><span class="glyphicon glyphicon-trash"></span> {intl l="Remove All" d='productcomparison.fo.new_v1'}</button>
+        </div>
     </div>
     <div style="clear:both;">&nbsp;</div>
     {loop type='product' name='block-comparator' id=$comparator_items order="given_id"}
