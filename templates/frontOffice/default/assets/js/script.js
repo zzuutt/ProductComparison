@@ -29,7 +29,7 @@
             if($.inArray(product_id, comparator[template_id]) == -1) {
 
                 comparator[template_id].push(product_id);
-                docCookies.setItem(cookie_name_comparator, JSON.stringify(comparator));
+                docCookies.setItem(cookie_name_comparator, JSON.stringify(comparator),'','/');
 
                 updateComparator(comparator[template_id].toString(), url_action);
 
