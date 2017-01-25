@@ -2,7 +2,7 @@
 
 author: Zzuutt <zzuutt34@free.fr>
 
-for Thelia >= 2.2.0
+for Thelia >= 2.3.0
 
 Add a comparator on your website
 
