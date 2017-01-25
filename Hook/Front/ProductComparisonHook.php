@@ -24,8 +24,8 @@ class ProductComparisonHook extends BaseHook
         $varsConf = $this->getModuleConfig();
         $category_authorized = unserialize($varsConf['category_authorized']) ? unserialize($varsConf['category_authorized']) : [];
         $template_authorized = unserialize($varsConf['template_authorized']) ? unserialize($varsConf['template_authorized']) : [];
-
-        if(!empty(array_intersect($parameters['category_id'], $category_authorized)) && !empty(array_intersect($parameters['template_id'], $template_authorized))) {
+        $view = $this->getView();
+        if(!empty(array_intersect($parameters['category_id'], $category_authorized)) && !empty(array_intersect($parameters['template_id'], $template_authorized)) && $view === 'category') {
             $event->add(
                 $this->render(
                     "single-product.html",
