@@ -112,3 +112,27 @@ In comparator page, I added:
 {/loop}
 ```
 
+### TARTEAUCITRON
+Si vous utilisez [Tarteaucitron](https://tarteaucitron.io) pour le RGPD, rajoutez ce service
+```javascript
+// comparator
+tarteaucitron.services.comparator = {
+    "key": "comparator",
+    "type": "other",
+    "name": "Comparator",
+    "needConsent": true,
+    "cookies": ['thelia_comparator'],
+    "js": function () {
+        "use strict";
+        if($("button[id$='comparator']").length){
+            location.reload(true);
+        }
+
+    },
+    "fallback": function () {
+        "use strict";
+        var id = 'comparator';
+        tarteaucitron.fallback(['btn-comparator'], tarteaucitron.engage(id));
+    }
+};
+```
