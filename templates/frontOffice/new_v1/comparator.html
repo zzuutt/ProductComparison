@@ -1,0 +1,255 @@
+{extends file="layout.tpl"}
+{* Breadcrumb *}
+{block name='no-return-functions' append}
+
+    {$breadcrumbs = []}
+    {$common_caterogy = ''}
+    {$parent_common_category = ''}
+    {loop type="product" name="product_breadcrumb" id=$comparator_items }
+        {if $common_category == ''}{$common_category = {$DEFAULT_CATEGORY}}{/if}
+        {if $common_category != {$DEFAULT_CATEGORY}}
+          {$common_category = {$DEFAULT_CATEGORY}}
+          {loop name="category_parent" type="category" id={$DEFAULT_CATEGORY}}
+            {$parent_common_category = {$PARENT}}
+          {/loop}
+        {/if}       
+    {/loop}
+    {if $parent_common_category != ''}{$common_category = $parent_common_category}{/if}
+    {loop name="category_path" type="category-path" category={$common_category}}
+        {$breadcrumbs[] = ['title' => {$TITLE}, 'url'=> {$URL nofilter}]}
+    {/loop}
+    {$breadcrumbs[] = ['title' => {intl l="Comparator" d='productcomparison.fo.new_v1'}, 'url'=>{url path="/comparator"}]}
+{/block}
+{block name="body-class"}page-comparator{/block}
+{block name="main-content"}
+<div class="main">
+    <article class="col-main row" role="main" aria-labelledby="main-label">
+        <h1 id="main-label" class="page-header">{intl l="Comparator" d='productcomparison.fo.new_v1'}</h1>
+        {hook name="comparator.top"}
+        <div id="comparator" class="table-responsive">
+            <table id="fixTable" class="table table-striped table-hover" style="border-collapse: separate; width:100% !important;">
+                <thead>
+                <tr>
+                    <th></th>
+                    {loop type="product" name="product-image" id=$comparator_items order='given_id'}
+                    <th class="text-center" style="position:relative;">
+                        <span id="movecolumn{$LOOP_COUNT}" title="{intl l="Move this column" d='productcomparison.fo.new_v1'}" class="moveColumn glyphicon glyphicon-resize-horizontal"/></span>
+                        {loop name="product_thumbnail" type="image" product=$ID width="218" height="146" resize_mode="borders" limit="1"}
+                        <img itemprop="image" src="{$IMAGE_URL nofilter}" alt="{$TITLE}" style="display: block; margin:0 auto;">
+                        {/loop}
+                        {elseloop rel="product_thumbnail"}
+                        {images file='assets/dist/img/218x146.png'}<img itemprop="image" src="{$asset_url}" alt="{$TITLE}">{/images}
+                        {/elseloop}
+
+                    </th>
+                    {/loop}
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        {loop type="product" name="product-image" id=$comparator_items order='given_id'}
+                        <td class="text-center">
+                            <strong><a href="{$URL}">{$TITLE}</a></strong>
+                            <a class="btn-comparator-fix" style="float:right;" tabindex="-1" data-column="{$LOOP_COUNT}" title="{intl l="fix this column" d='productcomparison.fo.new_v1'}">
+                              <i class="glyphicon glyphicon-pushpin"></i>
+                            </a>
+                        </td>
+                        {/loop}
+                    </tr>
+                    {loop name="product-comparison-list" type="product-comparison" order='manual' template_id="$comparator_template"}
+                    <tr>
+                        {loop type="feature" name="name-feature" id=$FEATURE_ID}
+                        <td class="text-center"><strong>{$TITLE|regex_replace:"/( ##)(.*)(##)/":""}</strong></td>
+                        {/loop}
+                        {loop type="product" name="product-feature" id=$comparator_items order='given_id'}
+                        <td class="text-center">
+                            {loop name="feature_value_technicalcharacteristics_general" type="feature_value" feature="{$FEATURE_ID}" product="{$ID}"}
+                                {if $LOOP_COUNT > 1}, {else} {/if}
+                                {if $IS_FREE_TEXT == 1}{$FREE_TEXT_VALUE}
+                                {else}
+                                  {if $TITLE=="true"}
+                                  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                  {else}                                            
+                                      {if $TITLE=='PRISE SCHUKO'}
+                                        {images file='assets/dist/img/logo/SCHUKO.gif'}<img itemprop="image" src="{$asset_url}" alt="Prise SCHUKO" style="margin:5px;">{/images}
+                                      {else}
+                                        {if $TITLE=='PRISE USB'}
+                                        {images file='assets/dist/img/logo/USB.gif'}<img itemprop="image" src="{$asset_url}" alt="Prise USB" style="margin:5px;">{/images}
+                                        {else}
+                                        {$TITLE|replace:' , ':'<br />' nofilter}
+                                        {/if}
+                                      {/if}
+                                  {/if}
+                                {/if}
+                            {/loop}
+                        </td>
+                        {/loop}
+                    </tr>
+                    {/loop}
+                </tbody>
+            </table>
+        </div>
+        {hook name="comparator.bottom"}
+    </article>
+</div><!-- /.layout -->
+{/block}
+{block name="stylesheet"}
+{hook name="comparator.stylesheet"}
+    {stylesheets file='assets/js/datatables/datatables.min.css' source="ProductComparison"}
+        <link rel="stylesheet" href="{$asset_url}">
+    {/stylesheets}
+    <style>
+      tbody tr > td {
+        vertical-align:middle !important;
+      }
+      .btn-comparator-fix {
+        cursor: pointer;
+      }
+      .DTFC_RightWrapper {
+        display:none;
+      }
+      tbody > tr > td:not(:last-child), table.DTFC_Cloned > tbody > tr > td:last-child{
+        border-right: 1px solid #ddd;
+      }
+      table.DTFC_Cloned > tbody > tr > td:first-child{
+        opacity:1;
+        filter: alpha(opacity=100);
+        border-right: 1px solid #ddd;
+      }
+      table.DTFC_Cloned > tbody > tr > td:not(:first-child){
+        background-color:rgba(0, 169, 13, 0.06);
+      }
+      .moveColumn {
+        float:right;
+        border:1px solid #AAA;
+        padding:2px;
+        border-radius:20%;
+        color:#AAA;
+        cursor:pointer;      
+      }
+
+    </style>
+{/block}
+{block name="after-javascript-include"}
+{hook name="comparator.after-javascript-include"}
+  {javascripts file='assets/js/datatables/datatables.min.js' source="ProductComparison"}
+      <script src="{$asset_url}" type="text/javascript"></script>
+  {/javascripts}
+{/block}
+{block name="javascript-initialization"}
+{hook name="comparator.javascript-initialization"}
+    <script>  
+    $(function() {
+    
+      var titleFix = "{intl l="fix this column" d='productcomparison.fo.new_v1'}";
+      var titleUnFix = "{intl l="unfix this column" d='productcomparison.fo.new_v1'}";
+      var table = "";
+      var columnFix = [0];
+      var orderStart = [{loop type="product" name="product-image" id=$comparator_items order='given_id'}{$LOOP_COUNT},{/loop}];
+      var orderDisplay = columnFix.concat(orderStart);
+      var columnNumber = orderDisplay.length;
+      fixTable();
+      columnNumber = columnFix.length;
+      setTimeout(function ()
+      {
+        table.destroy();
+        fixTable();
+      }, 20 );
+
+      $(document).on('click', '.btn-comparator-fix', function () {
+          var column_number = $(this).data('column');
+          if(columnFix.indexOf(column_number) !== -1) {
+            columnFix.splice(columnFix.indexOf(column_number), 1);
+            $('.btn-comparator-fix[data-column=' + column_number + '] i').removeClass('glyphicon-remove-sign').addClass('glyphicon-pushpin');
+            $('span#movecolumn'+ column_number).show();
+            $('.btn-comparator-fix[data-column=' + column_number + ']').prop('title', titleFix);
+            orderStart.push(column_number);
+            orderStart.sort(function(a,b){
+              return a-b;
+            });
+          }
+          else {
+            columnFix.push(column_number);
+            while (orderStart.indexOf(column_number) !== -1) {
+              orderStart.splice(orderStart.indexOf(column_number), 1);
+            }
+          }
+          
+          orderDisplay = columnFix.concat(orderStart);
+          
+          columnNumber = columnFix.length;
+          table.colReorder.reset();
+          table.destroy();
+          fixTable();
+          for(var x=0; x < columnNumber; x++){
+              $('.btn-comparator-fix[data-column=' + columnFix[x] + '] i').removeClass('glyphicon-pushpin').addClass('glyphicon-remove-sign');
+              $("span#movecolumn" + columnFix[x]).hide();
+              $('.btn-comparator-fix[data-column=' + column_number + ']').prop('title', titleUnFix);
+          }
+
+      });
+      
+      
+      function fixTable(){  
+        table = $("#fixTable").DataTable({
+          autoWidth: true,
+          info: false,
+          searching: false,
+          ordering:  false,
+          scrollY:   "200000px",
+          //"sScrollY": ( 0.5 * $(window).height() ),
+          scrollX:   true,
+          paging:    false,
+          scrollCollapse: true,
+          responsive: false,
+
+          
+          columnDefs: [
+              { orderable: false, targets: 0 },
+              { orderable: false, targets: -1 }
+          ],
+          colReorder: {
+              order: orderDisplay
+          },
+          rowReorder: false,
+          dom: 'Bfrtip',
+          buttons: [
+            {
+                extend: 'print',
+                text: '<i class="fa fa-print fa-2x"></i>',
+                titleAttr: 'Print',
+                autoPrint: false,
+                customize: function ( win ) {
+                    $(win.document.body)
+                        .css( 'font-size', '10pt' )
+                        .prepend(
+                            '{$image = {image file='assets/dist/img/logo.png' failsafe=true}}
+                            {if $image == null}
+                                {$image = {image file='assets/dist/img/logo.gif' failsafe=true}}
+                            {/if}
+                            <img src="{$image}" class="logo" alt="{$store_name}" style="position:relative; top:0; left:0;" />'
+                        );
+                    $(win.document.body).find( 'h1' )
+                        .addClass( 'text-center' )
+                        .html('{intl l="Comparator" d='productcomparison.fo.new_v1'}')
+                        ;
+                    $(win.document.body).find( 'table' )
+                        .addClass( 'compact' )
+                        .css( 'font-size', 'inherit' )
+                        ;
+                }
+            }
+        ]
+        });
+        
+        new $.fn.dataTable.FixedColumns( table, {
+          leftColumns: columnNumber
+        });
+        
+
+      }
+    });
+
+    </script>
+{/block}

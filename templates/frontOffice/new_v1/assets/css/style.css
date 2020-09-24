@@ -1,0 +1,46 @@
+.btn-comparator-add {
+    background-color: #f7f7f7;
+    border-left: 3px solid #ccc;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    color: #67B437;
+    font-style: italic;
+    font-weight: 600;
+    text-align: left;
+    text-shadow: none;
+}
+.btn-comparator-add:disabled{
+    color:#c4c4c4;
+}
+.comparator-block {
+    position: relative;
+    display: block;
+    width:100%;
+    text-align: center;
+    padding: 10px;
+}
+.comparator-title {
+    color: white;
+    background-color: #518d2b;
+    border: 1px solid white;
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    padding: 10px;
+    display: inline-block;
+    outline-style: none;
+    -webkit-transition: background-color 500ms cubic-bezier(0.32, 3.76, 0.67, -3.06); /* Safari */
+    transition: background-color 500ms cubic-bezier(0.32, 3.76, 0.67, -3.06);
+}
+.add-item {
+    background-color: orange;
+}
+.comparator-items {
+    padding: 15px;
+    border: 1px solid #518d2b;
+    border-radius: 10px 10px 0 0;
+}
+.comparator-info {
+    padding: 10px;
+    font-style: italic;
+}

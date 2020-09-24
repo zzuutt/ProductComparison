@@ -50,11 +50,9 @@ class ProductComparison extends BaseModule
     {
         // If we have to delete module data, remove the media directory.
         if ($deleteModuleData) {
-            $this->setConfigValue('is_initialized', false);
             $database = new Database($con);
 
             $database->insertSql(null, array(__DIR__ . '/Config/destroy.sql'));
-
         }
     }
 

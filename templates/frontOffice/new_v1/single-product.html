@@ -1,0 +1,7 @@
+<div class="product-price">
+    <div class="product-btn btn-comparator">
+        {loop type='product' name="init-comparator" id=$product_id limit="1"}
+        <button type="button" class="btn btn-comparator-add btn-block" data-action='{url path="/product-comparison/add"}' data-id="{$product_id}" data-template="{$TEMPLATE}" ><span class="glyphicon glyphicon-plus-sign"></span> {intl l="Add to comparator" d='productcomparison.fo.new_v1'}</button>
+        {/loop}
+    </div>
+</div>

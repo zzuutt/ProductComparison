@@ -13,9 +13,9 @@
 
 {block name="main-content"}
     {if $smarty.post.template}
-        {assign template_id {$smarty.post.template|default:''}}
+        {assign template_id_filter {$smarty.post.template|default:''}}
     {else}
-        {assign template_id {$smarty.get.template|default:''}}
+        {assign template_id_filter {$smarty.get.template|default:''}}
     {/if}
     <div id="wrapper" class="container">
 
@@ -56,7 +56,7 @@
         {form_hidden_fields form=$form}
 
 
-        {render_form_field form=$form field="success_url" value={url path='/admin/module/ProductComparison/product_comparison' template={$template_id}}}
+        {render_form_field form=$form field="success_url" value={url path='/admin/module/ProductComparison/product_comparison' template={$template_id_filter}}}
 
         {form_field form=$form field="template_id"}
         <div class="form-group">
@@ -119,7 +119,7 @@
     {capture "product_comparison_delete"}
         {intl l="Do you really want to delete this ProductComparison entry ?" d="productcomparison.bo.default"}
         <input type="hidden" name="product_comparison_id" id="product_comparison_delete_id" value="" />
-        <input type="hidden" name="template" id="product_comparison_template" value="{$template_id}" />
+        <input type="hidden" name="template" id="product_comparison_template" value="{$template_id_filter}" />
     {/capture}
 
     {include file="includes/generic-confirm-dialog.html"
@@ -160,11 +160,12 @@
                 placement   : 'left',
                 success     : function(response, newValue) {
                     // The URL template
-                    var url = "{url noamp='1' path='/admin/module/ProductComparison/product_comparison/updatePosition' product_comparison_id='__ID__' position='__POS__' order=$order template_id='__TEMPLATEID__'}";
+                    var url = "{url noamp='1' path='/admin/module/ProductComparison/product_comparison/updatePosition' product_comparison_id='__ID__' position='__POS__' order=$order template_id='__TEMPLATEID__' template='__TEMPLATEIDFILTER__'}";
 
                     // Perform subtitutions
                     var template = $("#template_" + $(this).data('id')).data('id');
-                    url = url.replace('__ID__', $(this).data('id')).replace('__POS__', newValue).replace('__TEMPLATEID__', template);
+                    var templateIdFilter = "{$template_id_filter}";
+                    url = url.replace('__ID__', $(this).data('id')).replace('__POS__', newValue).replace('__TEMPLATEID__', template).replace('__TEMPLATEIDFILTER__', templateIdFilter );
 
                     // Reload the page
                     location.href = url;

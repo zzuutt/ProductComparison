@@ -32,7 +32,7 @@
 
                                     {loop name="list_template" type="product-comparison" group="template"}
 
-                                    <option value="{$TEMPLATE_ID}" {if $TEMPLATE_ID==$template_id}selected{/if}>{loop type="product-template" name="name-template" id=$TEMPLATE_ID}{$NAME}{/loop}</option>
+                                    <option value="{$TEMPLATE_ID}" {if $TEMPLATE_ID==$template_id_filter}selected{/if}>{loop type="product-template" name="name-template" id=$TEMPLATE_ID}{$NAME}{/loop}</option>
 
                                     {/loop}
 
@@ -162,7 +162,7 @@
 
             <tbody>
 
-            {loop name="product-comparison-list" type="product-comparison" order=$order template_id="$template_id"}
+            {loop name="product-comparison-list" type="product-comparison" order=$order template_id="$template_id_filter"}
 
             <tr>
 
@@ -204,7 +204,7 @@
 
                     module="ProductComparison"
 
-                    path={url path="/admin/module/ProductComparison/product_comparison/updatePosition" template_id=$TEMPLATE_ID}
+                    path={url path="/admin/module/ProductComparison/product_comparison/updatePosition" template_id=$TEMPLATE_ID template=$template_id_filter}
 
                     url_parameter="product_comparison_id"
 

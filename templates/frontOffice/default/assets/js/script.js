@@ -29,7 +29,7 @@
             if($.inArray(product_id, comparator[template_id]) == -1) {
 
                 comparator[template_id].push(product_id);
-                docCookies.setItem(cookie_name_comparator, JSON.stringify(comparator));
+                docCookies.setItem(cookie_name_comparator, JSON.stringify(comparator),'','/');
 
                 updateComparator(comparator[template_id].toString(), url_action);
 
@@ -51,6 +51,12 @@
                 updateComparator(comparator[template_id].toString(), url_action);
 
             }
+            return false;
+        });
+        
+        $(document).on('click', '.btn-comparator-delete-all', function () {
+            updateComparator('', default_action_url);
+            comparator[default_template_id] = [];
             return false;
         });
     });

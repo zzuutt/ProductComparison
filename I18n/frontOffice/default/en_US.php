@@ -6,4 +6,5 @@ return array(
     'Compare' => 'Compare',
     'No products to compare' => 'No products to compare',
     'Remove' => 'Remove',
+    'Remove All' => 'Remove All',
 );

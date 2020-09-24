@@ -24,7 +24,6 @@ use Propel\Runtime\ActiveQuery\Criteria;
 
 
 
-
 /**
  * Class ProductComparisonAction
  * @package ProductComparison\Action
