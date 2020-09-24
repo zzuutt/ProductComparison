@@ -233,8 +233,15 @@ class ProductComparisonController extends AbstractCrudController
      */
     protected function redirectToListTemplate()
     {
+        $param = [];
+        if(null != $template = $this->getRequest()->get('template')){
+            $param = ["template"=>$template];
+
+        }
         return new RedirectResponse(
-            URL::getInstance()->absoluteUrl("/admin/module/ProductComparison/product_comparison")
+            URL::getInstance()->absoluteUrl("/admin/module/ProductComparison/product_comparison",
+            $param
+            )
         );
     }
     

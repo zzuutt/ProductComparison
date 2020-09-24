@@ -16,9 +16,6 @@ CREATE TABLE IF NOT EXISTS `product_comparison`
     `created_at` DATETIME,
     `updated_at` DATETIME,
     PRIMARY KEY (`id`),
-    INDEX `idx_product_comparison_id` (`feature_id`),
-    INDEX `fk_product_comparison_idx` (`template_id`),
-    INDEX `idx_product_comparison_template_id_position` (`template_id`, `position`),
     CONSTRAINT `fk_product_comparison_id`
         FOREIGN KEY (`feature_id`)
         REFERENCES `feature` (`id`)

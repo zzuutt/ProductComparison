@@ -56,7 +56,7 @@
         {form_hidden_fields form=$form}
 
 
-        {render_form_field form=$form field="success_url" value={url path='/admin/module/ProductComparison/product_comparison/edit?product_comparison_id=_ID_'}}
+        {render_form_field form=$form field="success_url" value={url path='/admin/module/ProductComparison/product_comparison' template={$template_id}}}
 
         {form_field form=$form field="template_id"}
         <div class="form-group">
@@ -119,6 +119,7 @@
     {capture "product_comparison_delete"}
         {intl l="Do you really want to delete this ProductComparison entry ?" d="productcomparison.bo.default"}
         <input type="hidden" name="product_comparison_id" id="product_comparison_delete_id" value="" />
+        <input type="hidden" name="template" id="product_comparison_template" value="{$template_id}" />
     {/capture}
 
     {include file="includes/generic-confirm-dialog.html"
@@ -140,6 +141,11 @@
     {/javascripts}
     <script>
         $(function() {
+            // Show proper tab, if defined
+            {if ! empty($smarty.get.current_tab)}
+            $('.nav-tabs a[href="#{$smarty.get.current_tab}"]').trigger("click");
+            {/if}
+
             $('a.product_comparison-delete').click(function(ev) {
                 $('#product_comparison_delete_id').val($(this).data('id'));
             });

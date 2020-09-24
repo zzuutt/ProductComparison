@@ -9,6 +9,7 @@ use Thelia\Core\Security\Resource\AdminResources;
 use Thelia\Core\Security\AccessManager;
 use Thelia\Form\Exception\FormValidationException;
 use Thelia\Tools\URL;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 
 /**
@@ -47,15 +48,16 @@ class ProductComparisonConfigurationController extends BaseAdminController
             }
 
             if ($this->getRequest()->get('save_mode') === 'close') {
-                return $this->generateRedirectFromRoute('/admin/module/ProductComparison/product_comparison');
+                return new RedirectResponse(URL::getInstance()->absoluteUrl(
+                    'admin/module/ProductComparison/product_comparison'
+                ));
             } else {
-                return $this->generateRedirectFromRoute(
-                    '/admin/module/ProductComparison/product_comparison',
-                    [],
+                return new RedirectResponse(URL::getInstance()->absoluteUrl(
+                    'admin/module/ProductComparison/product_comparison',
                     [
-                        'module_code' => ProductComparison::getModuleCode(),
+                        'current_tab' => 'config'
                     ]
-                );
+                ));
             }
         } catch (FormValidationException $ex) {
             $message = $this->createStandardFormValidationErrorMessage($ex);
