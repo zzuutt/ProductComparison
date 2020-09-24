@@ -2,7 +2,6 @@
 namespace ProductComparison\Hook\Front;
 
 use ProductComparison\ProductComparison;
-use Symfony\Component\Validator\Constraints\Null;
 use Thelia\Core\Event\Hook\HookRenderBlockEvent;
 use Thelia\Core\Event\Hook\HookRenderEvent;
 use Thelia\Core\Hook\BaseHook;
